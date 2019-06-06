@@ -27,6 +27,7 @@ module.exports = function retargetEvents(shadowRoot) {
         function retargetEvent(event) {
             
             var path = event.path || (event.composedPath && event.composedPath()) || composedPath(event.target);
+            var touched = false;
 
             for (var i = 0; i < path.length; i++) {
 
@@ -49,6 +50,12 @@ module.exports = function retargetEvents(shadowRoot) {
                 if (el === shadowRoot) {
                     break;
                 }
+
+                touched = true;
+            }
+
+            if (touched) {
+              event.stopPropagation();
             }
         }
 
